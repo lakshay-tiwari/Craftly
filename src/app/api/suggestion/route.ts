@@ -2,7 +2,7 @@ import { generateText, Output } from "ai";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { anthropic } from "@ai-sdk/anthropic";
+import { groq } from "@ai-sdk/groq";
 // import { google } from "@ai-sdk/google";
 
 const suggestionSchema = z.object({
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
       .replace("{lineNumber}", lineNumber.toString());
 
     const { output } = await generateText({
-      model: anthropic("claude-3-7-sonnet-20250219"),
+      model: groq("llama-3.3-70b-versatile"),
       output: Output.object({ schema: suggestionSchema }),
       prompt,
     });

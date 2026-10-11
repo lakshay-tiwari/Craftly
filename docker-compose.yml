@@ -24,7 +24,7 @@ services:
       - CONVEX_DEPLOYMENT=${CONVEX_DEPLOYMENT:-}
       - CRAFTLY_CONVEX_INTERNAL_KEY=${CRAFTLY_CONVEX_INTERNAL_KEY:-}
       # AI Model Providers
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
       - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY:-}
       # External APIs (configured as environment secrets)
       - FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY:-}

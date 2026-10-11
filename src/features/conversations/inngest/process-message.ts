@@ -1,4 +1,4 @@
-import { createAgent, anthropic, createNetwork } from '@inngest/agent-kit';
+import { createAgent, openai, createNetwork } from '@inngest/agent-kit';
 
 import { inngest } from "@/inngest/client";
 import { Id } from "../../../../convex/_generated/dataModel";
@@ -117,9 +117,11 @@ export const processMessage = inngest.createFunction(
        const titleAgent = createAgent({
         name: "title-generator",
         system: TITLE_GENERATOR_SYSTEM_PROMPT,
-        model: anthropic({
-          model: "claude-3-5-haiku-20241022",
-          defaultParameters: { temperature: 0, max_tokens: 50 },
+        model: openai({
+          model: "llama-3.1-8b-instant",
+          apiKey: process.env.GROQ_API_KEY,
+          baseUrl: "https://api.groq.com/openai/v1",
+          defaultParameters: { temperature: 0, max_completion_tokens: 50 },
         }),
        });
 
@@ -155,9 +157,11 @@ export const processMessage = inngest.createFunction(
       name: "craftly",
       description: "An expert AI coding assistant",
       system: systemPrompt,
-       model: anthropic({
-        model: "claude-opus-4-20250514",
-        defaultParameters: { temperature: 0.3, max_tokens: 16000 }
+       model: openai({
+        model: "llama-3.3-70b-versatile",
+        apiKey: process.env.GROQ_API_KEY,
+        baseUrl: "https://api.groq.com/openai/v1",
+        defaultParameters: { temperature: 0.3, max_completion_tokens: 8000 }
        }),
        tools: [
         createListFilesTool({ internalKey, projectId }),
@@ -185,7 +189,6 @@ export const processMessage = inngest.createFunction(
           (m) => m.type === "tool_call"
         );
 
-        // Anthropic outputs text AND tool calls together
         // Only stop if there's text WITHOUT tool calls (final response)
         if (hasTextResponse && !hasToolCalls) {
           return undefined;

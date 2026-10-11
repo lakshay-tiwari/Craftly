@@ -16,7 +16,7 @@ Craftly is a browser-based IDE inspired by Cursor AI, featuring:
 | **Frontend** | Next.js 16, React 19, TypeScript, Tailwind CSS 4 |
 | **Editor** | CodeMirror 6, Custom Extensions, One Dark Theme |
 | **Backend** | Convex (Real-time DB), Inngest (Background Jobs) |
-| **AI** | Claude Sonnet 4 (preferred) or Gemini 2.0 Flash (free tier) |
+| **AI** | Groq (Llama 3.3 70B) or Gemini 2.0 Flash |
 | **Auth** | Clerk (with GitHub OAuth) |
 | **Execution** | WebContainer API, xterm.js |
 | **UI** | shadcn/ui, Radix UI |
@@ -33,7 +33,7 @@ Accounts needed:
 - [Clerk](https://clerk.com) - Authentication
 - [Convex](https://convex.dev) - Database
 - [Inngest](https://www.inngest.com) - Background jobs
-- [Anthropic](https://www.anthropic.com) or [Google AI Studio](https://aistudio.google.com) - AI API (one required)
+- [Groq](https://groq.com) or [Google AI Studio](https://aistudio.google.com) - AI API (one required)
 - [Firecrawl](https://www.firecrawl.dev) - Web scraping (optional)
 - [Sentry](https://sentry.io) - Error tracking (optional)
 
@@ -71,7 +71,7 @@ Accounts needed:
    CRAFTLY_CONVEX_INTERNAL_KEY=  # Generate a random string
 
    # AI Provider (choose one)
-   ANTHROPIC_API_KEY=             # Preferred - Claude Sonnet 4
+   GROQ_API_KEY=                  # Preferred - Llama 3.3 70B (Groq)
    GOOGLE_GENERATIVE_AI_API_KEY=  # Alternative - Gemini 2.0 Flash
 
    # Firecrawl (optional)
