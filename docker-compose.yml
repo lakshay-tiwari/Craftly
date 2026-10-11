@@ -1,0 +1,61 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+      args:
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:-}
+        NEXT_PUBLIC_CONVEX_URL: ${NEXT_PUBLIC_CONVEX_URL:-}
+    container_name: craftly-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      # Clerk Authentication
+      - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:-}
+      - CLERK_SECRET_KEY=${CLERK_SECRET_KEY:-}
+      - CLERK_JWT_ISSUER_DOMAIN=${CLERK_JWT_ISSUER_DOMAIN:-}
+      # Convex Backend
+      - NEXT_PUBLIC_CONVEX_URL=${NEXT_PUBLIC_CONVEX_URL:-}
+      - CONVEX_DEPLOYMENT=${CONVEX_DEPLOYMENT:-}
+      - CRAFTLY_CONVEX_INTERNAL_KEY=${CRAFTLY_CONVEX_INTERNAL_KEY:-}
+      # AI Model Providers
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY:-}
+      # External APIs (configured as environment secrets)
+      - FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY:-}
+      # Error Tracking & Monitoring (optional)
+      - SENTRY_DSN=${SENTRY_DSN:-}
+      # Inngest Background Execution
+      - INNGEST_BASE_URL=http://inngest:8288
+      - INNGEST_EVENT_KEY=${INNGEST_EVENT_KEY:-}
+      - INNGEST_SIGNING_KEY=${INNGEST_SIGNING_KEY:-}
+    env_file:
+      - path: .env.local
+        required: false
+      - path: .env
+        required: false
+    depends_on:
+      - inngest
+    networks:
+      - craftly-network
+
+  inngest:
+    image: inngest/inngest:latest
+    container_name: craftly-inngest
+    restart: unless-stopped
+    ports:
+      - "8288:8288"
+    command: inngest dev -u http://app:3000/api/inngest --host 0.0.0.0
+    environment:
+      - INNGEST_DEV=1
+    networks:
+      - craftly-network
+
+networks:
+  craftly-network:
+    driver: bridge
