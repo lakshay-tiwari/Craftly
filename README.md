@@ -68,7 +68,7 @@ Accounts needed:
    # Convex
    NEXT_PUBLIC_CONVEX_URL=
    CONVEX_DEPLOYMENT=
-   POLARIS_CONVEX_INTERNAL_KEY=  # Generate a random string
+   CRAFTLY_CONVEX_INTERNAL_KEY=  # Generate a random string
 
    # AI Provider (choose one)
    ANTHROPIC_API_KEY=             # Preferred - Claude Sonnet 4
